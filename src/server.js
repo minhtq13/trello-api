@@ -1,5 +1,6 @@
 import express from "express";
-import { mapOrder } from "./utilities/sorts.js";
+import { mapOrder } from "*/utilities/sorts.js";
+
 const app = express();
 
 const hostname = "localhost";
