@@ -1,0 +1,36 @@
+{
+  "name": "trello-api",
+  "version": "1.0.0",
+  "description": "APIs for trello clone app",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint src",
+    "start": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhtq13/trello-api.git"
+  },
+  "keywords": [],
+  "author": "minhdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhtq13/trello-api/issues"
+  },
+  "homepage": "https://github.com/minhtq13/trello-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "mongoose": "^7.0.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.21"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.36.0"
+  }
+}
