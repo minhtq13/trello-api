@@ -5,7 +5,7 @@ const createNew = async (data) => {
   try {
     // transaction mongodb
     const newColumn = await ColumnModel.createNew(data);
-
+    newColumn.cards = [];
     // updated columnOrder Array in board collection
     await BoardModel.pushColumnOrder(
       newColumn.boardId.toString(),
