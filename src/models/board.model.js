@@ -25,7 +25,7 @@ const createNew = async (data) => {
       .insertOne(value);
     return value;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
