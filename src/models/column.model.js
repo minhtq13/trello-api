@@ -1,11 +1,13 @@
 import Joi from "joi";
+import pkg from "mongodb";
+const { ObjectId } = pkg;
 import { getDB } from "../config/mongodb.js";
 
 // Define Column collection
 const columnCollectionName = "columns";
 const columnCollectionSchema = Joi.object({
   boardId: Joi.string().required(),
-  title: Joi.string().required().min(3).max(20),
+  title: Joi.string().required().min(3).max(20).trim(),
   cardOrder: Joi.array().items(Joi.string()).default([]),
   createAt: Joi.date().timestamp().default(Date.now()),
   updateAt: Joi.date().timestamp().default(null),
@@ -21,15 +23,32 @@ const validateSchema = async (data) => {
 const createNew = async (data) => {
   try {
     const value = await validateSchema(data);
+    // eslint-disable-next-line no-unused-vars
     const result = await getDB()
       .collection(columnCollectionName)
       .insertOne(value);
     return value;
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 
-export const ColumnModel = {
-  createNew,
+const update = async (id, data) => {
+  try {
+    // const value = await validateSchema(data);
+    // eslint-disable-next-line no-unused-vars
+    const result = await getDB()
+      .collection(columnCollectionName)
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: data },
+        { returnOriginal: false }
+      );
+    console.log(result);
+    return result.value;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
+
+export const ColumnModel = { createNew, update };
