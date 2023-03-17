@@ -6,7 +6,7 @@ import { getDB } from "../config/mongodb.js";
 // Define Column collection
 const columnCollectionName = "columns";
 const columnCollectionSchema = Joi.object({
-  boardId: Joi.string().required(),
+  boardId: Joi.string().required(), // aslo ObjectId when create new
   title: Joi.string().required().min(3).max(20).trim(),
   cardOrder: Joi.array().items(Joi.string()).default([]),
   createAt: Joi.date().timestamp().default(Date.now()),
@@ -22,12 +22,36 @@ const validateSchema = async (data) => {
 
 const createNew = async (data) => {
   try {
-    const value = await validateSchema(data);
+    const validatedValue = await validateSchema(data);
+    const insertValue = {
+      ...validatedValue,
+      boardId: new ObjectId(validatedValue.boardId),
+    };
     // eslint-disable-next-line no-unused-vars
     const result = await getDB()
       .collection(columnCollectionName)
-      .insertOne(value);
-    return value;
+      .insertOne(insertValue);
+    return insertValue;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+/**
+ *
+ * @param {string} columnId
+ * @param {string} cardId
+ */
+const pushCardOrder = async (columnId, cardId) => {
+  try {
+    const result = await getDB()
+      .collection(columnCollectionName)
+      .findOneAndUpdate(
+        { _id: new ObjectId(columnId) },
+        { $push: { cardOrder: cardId } },
+        { returnOriginal: false }
+      );
+    return result.value;
   } catch (error) {
     throw new Error(error);
   }
@@ -44,11 +68,15 @@ const update = async (id, data) => {
         { $set: data },
         { returnOriginal: false }
       );
-    console.log(result);
     return result.value;
   } catch (error) {
     throw new Error(error);
   }
 };
 
-export const ColumnModel = { createNew, update };
+export const ColumnModel = {
+  columnCollectionName,
+  createNew,
+  pushCardOrder,
+  update,
+};
