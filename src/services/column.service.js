@@ -34,7 +34,6 @@ const update = async (id, data) => {
             // delete many cards in this column
             CardModel.deleteMany(updatedColumn.cardOrder);
         }
-
         return updatedColumn;
     } catch (error) {
         throw new Error(error);
