@@ -44,7 +44,7 @@ const update = async (id, data) => {
             .findOneAndUpdate(
                 { _id: new ObjectId(id) },
                 { $set: updateData },
-                { returnOriginal: false }
+                { returnDocument: "after" }
             );
         return result.value;
     } catch (error) {
@@ -64,7 +64,7 @@ const pushColumnOrder = async (boradId, columnId) => {
             .findOneAndUpdate(
                 { _id: new ObjectId(boradId) },
                 { $push: { columnOrder: columnId } },
-                { returnOriginal: false }
+                { returnDocument: "after" }
             );
         return result.value;
     } catch (error) {

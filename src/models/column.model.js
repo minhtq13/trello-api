@@ -49,7 +49,7 @@ const pushCardOrder = async (columnId, cardId) => {
             .findOneAndUpdate(
                 { _id: new ObjectId(columnId) },
                 { $push: { cardOrder: cardId } },
-                { returnOriginal: false }
+                { returnDocument: "after" }
             );
         return result.value;
     } catch (error) {
@@ -69,7 +69,7 @@ const update = async (id, data) => {
             .findOneAndUpdate(
                 { _id: new ObjectId(id) },
                 { $set: updateData },
-                { returnOriginal: false }
+                { returnDocument: "after" }
             );
         return result.value;
     } catch (error) {
