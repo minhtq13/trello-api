@@ -22,9 +22,10 @@ const getFullBoard = async (boardId) => {
             throw new Error("Board not found!");
         }
 
+        // Filter deleted column
         const transformBoard = cloneDeep(board);
         transformBoard.columns = transformBoard.columns.filter(
-            (column) => !column._destroy
+            (column) => column._destroy === false
         );
         // Add card to each column
         transformBoard.columns.forEach((column) => {
